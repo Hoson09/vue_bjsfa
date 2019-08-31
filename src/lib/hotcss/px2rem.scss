@@ -1,0 +1,6 @@
+@function px2rem($px) {
+    @return $px*320/$designWidth/20+rem;
+}
+
+//需要设置一个移动端设计宽度。
+$designWidth :750;
