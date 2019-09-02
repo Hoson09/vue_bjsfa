@@ -11,8 +11,14 @@ export default new Vuex.Store({
   },
   mutations: {
     initUser(state, payload) {
+      // console.log(payload);
       state.loginUser = payload;
     }
   },
-  actions: {}
+  actions: {},
+  getters: {
+    getLoginUser(state) {
+      return state.loginUser;
+    }
+  }
 });

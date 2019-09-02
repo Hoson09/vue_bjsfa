@@ -82,7 +82,9 @@
 <script>
 import "../assets/font/iconfont.css";
 import { Indicator, Toast } from "mint-ui";
-import axios from "axios";
+// import axios from "axios";
+import { mapMutations } from "vuex";
+import service from "../service/index";
 
 export default {
   name: "login",
@@ -114,6 +116,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(["initUser"]),
     autologinSet() {
       this.autologin = !this.autologin;
       this.autologin && (this.remenber = true);
@@ -141,8 +144,15 @@ export default {
       // setTimeout(() => {
       //   Indicator.close();
       // }, 2000);
-      axios
-        .post("/api/login", {
+
+      // axios
+      //   .post("/api/login", {
+      //     CNO: this.cm_code,
+      //     PNO: this.p_num,
+      //     Passwd: this.pwd
+      //   })
+      service
+        .login({
           CNO: this.cm_code,
           PNO: this.p_num,
           Passwd: this.pwd
@@ -151,6 +161,7 @@ export default {
           if (res.data.code == 1) {
             //登录成功
             //需要记住用户名和密码的操作
+            console.log("res.token", res);
             if (this.remenber) {
               localStorage.setItem(
                 "Login_data",
@@ -169,9 +180,15 @@ export default {
               "loginUserData",
               JSON.stringify(res.data.user)
             );
-            //然后把数据存储到全局的vuex上。共其他页面调用
-            this.$store.commit("initUser", res.data.user);
+            sessionStorage.setItem(
+              "loginToken",
+              JSON.stringify(res.data.token)
+            );
 
+            //然后把数据存储到全局的vuex上。共其他页面调用
+            // this.$store.commit("initUser", res.data.user);
+            //map映射后直接调用方法即可
+            this.initUser(res.data.user);
             //跳转到home页面
             this.$router.push("home");
           } else {
