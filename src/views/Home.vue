@@ -23,6 +23,18 @@
         ></progress-pie>
       </div>
     </div>
+    <div class="main-nav">
+      <div class="cell" v-for="index in 9" :key="index">
+        <!-- 因为这个九宫格是铺不满的，最后一个是空，随意要判断一下才行 -->
+        <template v-if="index <= menulist.length">
+          <menu-cell
+            :menuname="menulist[index - 1].menuname"
+            :imgurl="menulist[index - 1].imgurl"
+            :url="menulist[index - 1].url"
+          ></menu-cell>
+        </template>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -31,21 +43,26 @@
 import TopHeader from "../components/TopHeader";
 import ProgressPie from "../components/ProgressPie";
 import service from "../service/index";
+import MenuCell from "../components/MenuCell";
 // import { mapGetters } from "vuex";
-
+import menulist from "../static/Menu";
 export default {
   name: "home",
   data() {
     return {
       DivSalesPercent: 0,
-      shops: 0
+      shops: 0,
+      menulist
     };
   },
   components: {
     topheader: TopHeader,
-    "progress-pie": ProgressPie
+    "progress-pie": ProgressPie,
+    "menu-cell": MenuCell
   },
   created() {
+    console.log(menulist);
+
     //这是vue页面创建之后
     // axios.get('/api/auth/shopSales/')
     // console.log(this.$store.getters.getLoginUser.id);
@@ -93,19 +110,56 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.main-body {
-  background-color: #fff;
-  .date-wrap {
-    padding: px2rem(40) 0 px2rem(22);
-    text-align: center;
-    color: #000;
-    font-size: $text-size-top;
-    line-height: $text-size-top;
-  }
-  .progress-wrap {
+.home {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  .main-nav {
+    flex: 1;
+    width: 100%;
+    padding: 0 px2rem(30);
+    background-color: #fff;
+    box-sizing: border-box;
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    align-content: stretch;
+    border-top: px2rem(1) solid #ccc;
+    .cell {
+      flex: 1 1 33%;
+      border-bottom: px2rem(1) solid #ccc;
+      border-right: px2rem(1) solid #ccc;
+      &:nth-child(3n) {
+        border-right: none;
+      }
+      &:nth-child(7) {
+        border-bottom: none;
+      }
+      &:nth-child(8) {
+        border-bottom: none;
+      }
+      &:nth-child(9) {
+        border-bottom: none;
+      }
+    }
+  }
+  .main-body {
+    background-color: #fff;
+    width: 100%;
+    .date-wrap {
+      padding: px2rem(40) 0 px2rem(22);
+      text-align: center;
+      color: #000;
+      font-size: $text-size-top;
+      line-height: $text-size-top;
+    }
+    .progress-wrap {
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
   }
 }
 </style>

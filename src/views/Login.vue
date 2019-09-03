@@ -180,10 +180,7 @@ export default {
               "loginUserData",
               JSON.stringify(res.data.user)
             );
-            sessionStorage.setItem(
-              "loginToken",
-              JSON.stringify(res.data.token)
-            );
+            sessionStorage.setItem("loginToken", res.data.token);
 
             //然后把数据存储到全局的vuex上。共其他页面调用
             // this.$store.commit("initUser", res.data.user);
