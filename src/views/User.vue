@@ -7,9 +7,9 @@
   </div>
 </template>
 <script>
-import TopHeader from "../components/TopHeader";
+import TopHeader from '../components/TopHeader';
 export default {
-  name: "user",
+  name: 'user',
   data() {
     return {};
   },

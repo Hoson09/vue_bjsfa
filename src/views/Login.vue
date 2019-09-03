@@ -80,20 +80,20 @@
   </div>
 </template>
 <script>
-import "../assets/font/iconfont.css";
-import { Indicator, Toast } from "mint-ui";
+import '../assets/font/iconfont.css';
+import { Indicator, Toast } from 'mint-ui';
 // import axios from "axios";
-import { mapMutations } from "vuex";
-import service from "../service/index";
+import { mapMutations } from 'vuex';
+import service from '../service/index';
 
 export default {
-  name: "login",
+  name: 'login',
   data() {
     return {
-      cm_code: "",
+      cm_code: '',
       act_index: 1,
-      p_num: "",
-      pwd: "",
+      p_num: '',
+      pwd: '',
       remenber: false,
       autologin: false
     };
@@ -103,7 +103,7 @@ export default {
     //强制执行校验的方法，$validator这个对象是通过全局导入自动加载到每个组件的Vue对象上的。
     this.$validator.validate();
     //设置记住密码后在挂载之后就要进行。。。 (localStorage中存储的都是字符串所以获得字符串后要进行转化成对象才行)
-    let login_data = JSON.parse(localStorage.getItem("Login_data"));
+    let login_data = JSON.parse(localStorage.getItem('Login_data'));
     if (login_data) {
       this.p_num = login_data.PNO;
       this.cm_code = login_data.CNO;
@@ -116,7 +116,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["initUser"]),
+    ...mapMutations(['initUser']),
     autologinSet() {
       this.autologin = !this.autologin;
       this.autologin && (this.remenber = true);
@@ -137,8 +137,8 @@ export default {
       // console.log("无错误");
       //弹出等待的遮罩层,防止二次点击
       Indicator.open({
-        text: "登录中...",
-        spinnerType: "triple-bounce"
+        text: '登录中...',
+        spinnerType: 'triple-bounce'
       });
       //发送ajax请求
       // setTimeout(() => {
@@ -161,37 +161,37 @@ export default {
           if (res.data.code == 1) {
             //登录成功
             //需要记住用户名和密码的操作
-            console.log("res.token", res);
+            console.log('res.token', res);
             if (this.remenber) {
               localStorage.setItem(
-                "Login_data",
+                'Login_data',
                 JSON.stringify({
                   remenber: this.remenber,
                   autologin: this.autologin,
-                  PNO: this.remenber ? this.p_num : "",
-                  CNO: this.remenber ? this.cm_code : "",
-                  pwd: this.remenber ? this.pwd : ""
+                  PNO: this.remenber ? this.p_num : '',
+                  CNO: this.remenber ? this.cm_code : '',
+                  pwd: this.remenber ? this.pwd : ''
                 })
               );
             }
             /*localStorage 和 sessionStorage 属性允许在浏览器中存储 key/value 对的数据。
                sessionStorage 用于临时保存同一窗口(或标签页)的数据，在关闭窗口或标签页之后将会删除这些数据。*/
             sessionStorage.setItem(
-              "loginUserData",
+              'loginUserData',
               JSON.stringify(res.data.user)
             );
-            sessionStorage.setItem("loginToken", res.data.token);
+            sessionStorage.setItem('loginToken', res.data.token);
 
             //然后把数据存储到全局的vuex上。共其他页面调用
             // this.$store.commit("initUser", res.data.user);
             //map映射后直接调用方法即可
             this.initUser(res.data.user);
             //跳转到home页面
-            this.$router.push("home");
+            this.$router.push('home');
           } else {
             //登录失败用户名不正确
             Toast({
-              message: "用户名错误",
+              message: '用户名错误',
               duration: 2000
             });
           }
@@ -200,7 +200,7 @@ export default {
         .catch(() => {
           //登录异常失败
           Toast({
-            message: "网络异常",
+            message: '网络异常',
             duration: 2000
           });
           Indicator.close();
@@ -254,7 +254,7 @@ h1 {
       width: px2rem(190);
       height: px2rem(190);
       margin: 0 auto px2rem(80);
-      background: url("../assets/logo.jpg");
+      background: url('../assets/logo.jpg');
       background-size: cover;
       border-radius: 50%;
     }

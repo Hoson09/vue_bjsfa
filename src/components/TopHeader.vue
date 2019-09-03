@@ -10,11 +10,11 @@
 
 <script>
 export default {
-  name: "topheader",
+  name: 'topheader',
   data() {
     return {};
   },
-  props: ["title", "backurl"],
+  props: ['title', 'backurl'],
   methods: {
     backAction() {
       if (this.backurl) {

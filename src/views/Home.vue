@@ -40,14 +40,14 @@
 
 <script>
 // @ is an alias to /src
-import TopHeader from "../components/TopHeader";
-import ProgressPie from "../components/ProgressPie";
-import service from "../service/index";
-import MenuCell from "../components/MenuCell";
+import TopHeader from '../components/TopHeader';
+import ProgressPie from '../components/ProgressPie';
+import service from '../service/index';
+import MenuCell from '../components/MenuCell';
 // import { mapGetters } from "vuex";
-import menulist from "../static/Menu";
+import menulist from '../static/Menu';
 export default {
-  name: "home",
+  name: 'home',
   data() {
     return {
       DivSalesPercent: 0,
@@ -57,11 +57,11 @@ export default {
   },
   components: {
     topheader: TopHeader,
-    "progress-pie": ProgressPie,
-    "menu-cell": MenuCell
+    'progress-pie': ProgressPie,
+    'menu-cell': MenuCell
   },
   created() {
-    console.log(menulist);
+    // console.log(menulist);
 
     //这是vue页面创建之后
     // axios.get('/api/auth/shopSales/')
