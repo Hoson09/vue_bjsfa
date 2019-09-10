@@ -8,8 +8,8 @@
 </template>
 <script>
 export default {
-  name: "menucell",
-  props: ["menuname", "imgurl", "url"],
+  name: 'menucell',
+  props: ['menuname', 'imgurl', 'url'],
   data() {
     return {};
   }

@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Login from './views/Login.vue';
 import Home from './views/Home.vue';
 import Notice from './views/Notice';
+import NoticeDetail from './views/NoticeDetail';
 
 Vue.use(Router);
 
@@ -17,6 +18,16 @@ export default new Router({
       path: '/notice',
       name: 'Notice',
       component: Notice
+      // beforeEnter(to, from, next) {
+      //   console.log('to', to);
+      //   console.log('from', from);
+      //   next();
+      // }
+    },
+    {
+      path: '/notice/:id',
+      name: 'NoticeDetail',
+      component: NoticeDetail
     },
     {
       path: '/home',
