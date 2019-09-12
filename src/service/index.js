@@ -26,6 +26,9 @@ export default {
     //退出登录时调用，销毁掉请求拦截器
     axios.interceptors.request.eject(axiosIns);
   },
+  setNoticeReaded(id) {
+    return axios.post(`/api/auth/notice/${id}`);
+  },
   getUserProgress(id) {
     return axios.get('/api/auth/shopSales/' + id);
   },

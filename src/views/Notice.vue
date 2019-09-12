@@ -82,8 +82,8 @@ export default {
             // console.log(res.data.data.messages);
             // this.noticeList.unshift(...res.data.data.messages); //使用本地组件的方式存储noticeList
             this.unshiftMoreNotice(res.data.data.messages); //vuex的方式来存储数据
-            this.startDate = this.noticeList[0].SubDate;
-            //加载完数据之后必须调用这个方法才行。
+            this.startDate = new Date(this.noticeList[0].SubDate);
+            //加载完数据之后必须调用这个方法才行。这个方法是下拉动作执行完成后重新计算列表的高度
             this.$refs.loadmore.onTopLoaded();
           } else {
             console.log('请求参数有误');
@@ -104,8 +104,10 @@ export default {
             }
             // this.noticeList.push(...res.data.data.messages);
             this.pushMoreNotice(res.data.data.messages);
-            this.endDate = this.noticeList[this.noticeList.length - 1].SubDate;
-            //加载完数据之后必须调用这个方法才行
+            this.endDate = new Date(
+              this.noticeList[this.noticeList.length - 1].SubDate
+            );
+            //加载完数据之后必须调用这个方法才行。这个方法是上拉动作执行完成后重新计算列表的高度
             this.$refs.loadmore.onBottomLoaded();
           } else {
             console.log('请求参数有误');
@@ -131,7 +133,7 @@ export default {
       this.$store.commit('setUrlName', this.$router.history.current.name);
       return;
     }
-    console.log(this.startDate);
+    // console.log(this.startDate);
     service
       .getNotices(this.startDate, 10, true)
       .then(res => {
@@ -139,7 +141,9 @@ export default {
           console.log(res.data);
           // this.noticeList.push(...res.data.data.messages);//使用本地组件的方式存储noticeList
           this.initNotice(res.data.data.messages); //vuex的方式来存储数据
-          this.endDate = this.noticeList[this.noticeList.length - 1].SubDate;
+          this.endDate = new Date(
+            this.noticeList[this.noticeList.length - 1].SubDate
+          );
         } else {
           console.log('请求参数有误');
         }
@@ -172,9 +176,10 @@ export default {
             .iconfont::before {
               line-height: px2rem(40);
               font-size: px2rem(40);
+              color: red;
             }
             .iconfont.readed::before {
-              color: red;
+              color: #ccc;
             }
           }
           .notice-r {
