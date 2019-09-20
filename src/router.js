@@ -5,6 +5,7 @@ import Home from './views/Home.vue';
 import Notice from './views/Notice';
 import VisitShop from './views/VisitShop';
 import NoticeDetail from './views/NoticeDetail';
+import ShopInfo from './views/ShopInfo';
 
 Vue.use(Router);
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/visitshop',
       name: 'VisitShop',
       component: VisitShop
+    },
+    {
+      path: '/visitshop/:id',
+      name: 'ShopInfo',
+      component: ShopInfo
     },
     {
       path: '/home',
