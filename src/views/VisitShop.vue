@@ -77,6 +77,10 @@ export default {
     };
   },
   created() {
+    Indicator.open({
+      text: '加载中',
+      spinnerType: 'triple-bounce'
+    });
     this.getLocation()
       .then(() => {
         this.searchClick();
@@ -96,7 +100,7 @@ export default {
     getLocation() {
       //因为定位只需要一次即可，所以可以封装为一个方法来进行。又因为定位为异步加载，所以需要封装一个promise对象来执行。
       return new Promise((resolve, reject) => {
-        //这是可以避免eslint的方法。
+        //这是可以避免eslint校验的方法。
         //eslint-disable-next-line
         var geolocation = new qq.maps.Geolocation(
           'FL6BZ-KA6WU-TPBVR-2KIMM-NT3OE-4KFEG',
@@ -143,10 +147,10 @@ export default {
     },
     searchClick() {
       // console.log(this.q);
-      Indicator.open({
-        text: '加载中',
-        spinnerType: 'triple-bounce'
-      });
+      // Indicator.open({
+      //   text: '加载中',
+      //   spinnerType: 'triple-bounce'
+      // });
 
       /**之前的做法 **/
       // var geolocation = new qq.maps.Geolocation(
