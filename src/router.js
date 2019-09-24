@@ -9,6 +9,12 @@ import ShopInfo from './views/ShopInfo';
 
 Vue.use(Router);
 
+// ajax
+// let perArr = [{
+//     id: 22,
+//     url: '/home/aid'
+// }];
+
 export default new Router({
   routes: [
     {
@@ -20,6 +26,10 @@ export default new Router({
       path: '/notice',
       name: 'Notice',
       component: Notice
+      // ,
+      // meta: {
+      //     perId: perArr.find(item => item.url === '/notice').id
+      // }
       // beforeEnter(to, from, next) {
       //   console.log('to', to);
       //   console.log('from', from);
