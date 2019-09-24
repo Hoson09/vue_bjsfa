@@ -42,10 +42,11 @@ export default {
     });
   },
   getShops(data) {
-    return axios.get(
-      `/api/auth/shop?_page=1&_limit=10&_order=asc&_sort=distance&Lng=${
-        data.lng
-      }&Lat=${data.lat}${data.q ? '&q=' + data.q : ''}`
-    );
+    return axios.get('/api/auth/shop?_limit=10&_order=asc&_sort=distance', {
+      params: data
+    });
+  },
+  getShopInfo(id) {
+    return axios.get('/api/auth/shopSales/' + id);
   }
 };

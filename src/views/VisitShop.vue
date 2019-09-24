@@ -7,54 +7,67 @@
       <div class="tab-bd" slot="s1">
         <div class="search-wrap">
           <div class="search-box">
-            <i @click="searchClick" class="icon iconfont icon-sousuo"></i>
+            <i
+              @click="searchClick(false)"
+              class="icon iconfont icon-sousuo"
+            ></i>
             <input
               type="text"
               name="search"
               id="search"
               v-model="q"
               placeholder="点击进行搜索~"
-              @keydown.enter="searchClick"
+              @keydown.enter="searchClick(false)"
             />
           </div>
         </div>
-        <div class="shop-list">
-          <ul>
-            <li class="shop-item" v-for="item in shops" :key="item.id">
-              <router-link class="shop-item-link" :to="`/visitshop/${item.id}`">
-                <div class="l">
-                  <div class="hd">
-                    <h3 class="shop-name">
-                      {{ item.name }}
-                    </h3>
-                    <div class="shop-location">
-                      <i class="icon iconfont icon-location"></i>
-                      <span> &lt; {{ item.distance }} 米</span>
+        <loadmore
+          :bottom-method="loadBottom"
+          :bottom-all-loaded="allLoaded"
+          :auto-fill="false"
+          ref="loadmore"
+        >
+          <div class="shop-list">
+            <ul>
+              <li class="shop-item" v-for="item in shops" :key="item.id">
+                <router-link
+                  class="shop-item-link"
+                  :to="`/visitshop/${item.id}`"
+                >
+                  <div class="l">
+                    <div class="hd">
+                      <h3 class="shop-name">
+                        {{ item.name }}
+                      </h3>
+                      <div class="shop-location">
+                        <i class="icon iconfont icon-location"></i>
+                        <span> &lt; {{ item.distance }} 米</span>
+                      </div>
                     </div>
-                  </div>
-                  <div class="shop-id-wrap">
-                    <span class="shop-id">ID: {{ item.id }}</span>
-                    <span class="shop-time"
-                      >创建时间: {{ item.subon | formatData }}</span
-                    >
-                  </div>
-                  <div class="bottom">
-                    <div class="boss-wrap">
-                      <span class="boss">{{ item.bossName }}</span>
-                      <span class="phone"
-                        ><i class="icon iconfont icon-shouji"></i
-                        >{{ item.phone }}</span
+                    <div class="shop-id-wrap">
+                      <span class="shop-id">ID: {{ item.id }}</span>
+                      <span class="shop-time"
+                        >创建时间: {{ item.subon | formatData }}</span
                       >
                     </div>
+                    <div class="bottom">
+                      <div class="boss-wrap">
+                        <span class="boss">{{ item.bossName }}</span>
+                        <span class="phone"
+                          ><i class="icon iconfont icon-shouji"></i
+                          >{{ item.phone }}</span
+                        >
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div class="r">
-                  <i class="icon iconfont icon-youjiantou"></i>
-                </div>
-              </router-link>
-            </li>
-          </ul>
-        </div>
+                  <div class="r">
+                    <i class="icon iconfont icon-youjiantou"></i>
+                  </div>
+                </router-link>
+              </li>
+            </ul>
+          </div>
+        </loadmore>
       </div>
       <div class="tab-bd" slot="s2">
         <h2>暂时没有数据</h2>
@@ -65,7 +78,9 @@
 <script>
 import TopHeader from '../components/TopHeader';
 import service from '../service/index';
-import { Indicator } from 'mint-ui';
+import { Indicator, Loadmore } from 'mint-ui';
+import _ from 'lodash';
+import { mapMutations } from 'vuex';
 export default {
   name: 'visitshop',
   data() {
@@ -73,7 +88,9 @@ export default {
       q: '',
       lat: '',
       lng: '',
-      shops: []
+      shops: [],
+      page: 1,
+      allLoaded: false
     };
   },
   created() {
@@ -83,24 +100,32 @@ export default {
     });
     this.getLocation()
       .then(() => {
-        this.searchClick();
+        this.searchClick(false);
       })
       .catch(() => {
-        this.searchClick();
+        this.searchClick(false);
       });
   },
   watch: {
     q: function(newVal) {
       if (!newVal) {
-        this.searchClick();
+        this.searchClick(false);
       }
     }
   },
   methods: {
+    ...mapMutations(['initShops', 'appendShops']),
+    loadBottom() {
+      this.page += 1; //加载下一页的数据
+      this.searchClick(true).then(() => {
+        //重新计算位置
+        this.$refs.loadmore.onBottomLoaded();
+      });
+    },
     getLocation() {
       //因为定位只需要一次即可，所以可以封装为一个方法来进行。又因为定位为异步加载，所以需要封装一个promise对象来执行。
       return new Promise((resolve, reject) => {
-        //这是可以避免eslint校验的方法。
+        //这是可以避免eslint校验的方法。****
         //eslint-disable-next-line
         var geolocation = new qq.maps.Geolocation(
           'FL6BZ-KA6WU-TPBVR-2KIMM-NT3OE-4KFEG',
@@ -123,6 +148,7 @@ export default {
             //   .catch(() => {
             //     console.log('请求失败');
             //   });
+            console.log('定位成功:', postion);
             resolve(postion);
           },
           err => {
@@ -145,7 +171,7 @@ export default {
         );
       });
     },
-    searchClick() {
+    searchClick(isAppend) {
       // console.log(this.q);
       // Indicator.open({
       //   text: '加载中',
@@ -192,15 +218,37 @@ export default {
       //   },
       //   {}
       // );
+      if (!isAppend) {
+        this.page = 1;
+      }
 
       /**现在的做法 **/
       //在这里只需要发送ajax请求即可，不需要进行定位了。
-      service
-        .getShops({ lat: this.lat, lng: this.lng, q: this.q })
+      return service
+        .getShops({
+          lat: this.lat,
+          lng: this.lng,
+          name_like: this.q,
+          _page: this.page
+        })
         .then(res => {
           console.log(res.data);
           //这样可以让数据动态变化
-          this.shops = res.data;
+          if (isAppend) {
+            //如果是加载更多，则要往shops添加商铺信息。
+            // this.shops.push(...res.data); //这种方式可能会出现重复。所以要使用loadsh去重
+            let arr = [...this.shops, ...res.data];
+            //loadsh根据请求对象的id字段来进行去重。
+            this.shops = _.uniqBy(arr, 'id');
+            // this.$refs.loadmore.onBottomLoaded();
+            //把获取的数据存在vuex中进行传值
+            this.appendShops(res.data);
+          } else {
+            //如果是搜索查询，直接把shops数组进行替换
+            this.shops = res.data;
+            //添加咋vuex上进行传值
+            this.initShops(res.data);
+          }
           Indicator.close();
         })
         .catch(() => {
@@ -209,7 +257,8 @@ export default {
     }
   },
   components: {
-    topheader: TopHeader
+    topheader: TopHeader,
+    loadmore: Loadmore
   },
   filters: {
     formatData(val) {
@@ -227,6 +276,7 @@ export default {
     background-color: #fafafa;
     border-bottom: px2rem(2) solid #fbfbfb;
     .search-box {
+      overflow: hidden;
       position: relative;
       i {
         position: absolute;

@@ -11,9 +11,18 @@ export default new Vuex.Store({
       : null,
     startTime: '',
     urlName: '',
-    noticeList: [] //把请求的数据储存在vuex中，在相同请求的时候就可以避免多次请求的问题。
+    noticeList: [], //把请求的数据储存在vuex中，在相同请求的时候就可以避免多次请求的问题。
+    Shops: []
   },
   mutations: {
+    initShops(state, payload) {
+      state.Shops = payload;
+    },
+    appendShops(state, payload) {
+      //保证数组中没有重复id的数据
+      let arr = [...state.Shops, ...payload];
+      state.Shops = _.uniqBy(arr, 'id');
+    },
     initUser(state, payload) {
       // console.log(payload);
       state.loginUser = payload;
