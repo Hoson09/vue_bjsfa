@@ -24,7 +24,7 @@
         <loadmore
           :bottom-method="loadBottom"
           :bottom-all-loaded="allLoaded"
-          :auto-fill="false"
+          :auto-fill="true"
           ref="loadmore"
         >
           <div class="shop-list">
