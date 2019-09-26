@@ -56,7 +56,11 @@
         ></textarea>
       </div>
       <div class="btn-wrap">
-        <div class="btn">下单</div>
+        <div class="btn">
+          <router-link :to="`/order/${this.$route.params.id}`">
+            下单
+          </router-link>
+        </div>
         <div class="btn">
           <router-link :to="`/signin/${this.$route.params.id}`">
             商店签到

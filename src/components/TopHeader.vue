@@ -46,6 +46,14 @@ export default {
   .th-r {
     padding-right: px2rem(25);
   }
+  i {
+    line-height: $text-size-best;
+    font-size: $text-size-best;
+  }
+  a {
+    line-height: $text-size-best;
+    font-size: $text-size-best;
+  }
   .iconfont::before {
     font-size: $text-size-best;
   }
