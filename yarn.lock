@@ -2025,6 +2025,11 @@ caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000980, caniuse-lite@^1.0.30000984:
   resolved "https://registry.npm.taobao.org/caniuse-lite/download/caniuse-lite-1.0.30000989.tgz#b9193e293ccf7e4426c5245134b8f2a56c0ac4b9"
   integrity sha1-uRk+KTzPfkQmxSRRNLjypWwKxLk=
 
+canvas-resize@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npm.taobao.org/canvas-resize/download/canvas-resize-1.1.0.tgz#74854d326e59618cbaa30218a4155e854456abe3"
+  integrity sha1-dIVNMm5ZYYy6owIYpBVehURWq+M=
+
 case-sensitive-paths-webpack-plugin@^2.2.0:
   version "2.2.0"
   resolved "https://registry.npm.taobao.org/case-sensitive-paths-webpack-plugin/download/case-sensitive-paths-webpack-plugin-2.2.0.tgz#3371ef6365ef9c25fa4b81c16ace0e9c7dc58c3e"

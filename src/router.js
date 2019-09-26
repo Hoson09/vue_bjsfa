@@ -6,6 +6,7 @@ import Notice from './views/Notice';
 import VisitShop from './views/VisitShop';
 import NoticeDetail from './views/NoticeDetail';
 import ShopInfo from './views/ShopInfo';
+import SignIn from './views/SignIn';
 
 Vue.use(Router);
 
@@ -55,6 +56,11 @@ export default new Router({
       path: '/home',
       name: 'Home',
       component: Home
+    },
+    {
+      path: '/signin/:id',
+      name: 'SignIn',
+      component: SignIn
     },
     {
       //这是按需加载的方式

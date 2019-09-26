@@ -25,7 +25,7 @@
     </div>
     <div class="main-nav">
       <div class="cell" v-for="index in 9" :key="index">
-        <!-- 因为这个九宫格是铺不满的，最后一个是空，随意要判断一下才行 -->
+        <!-- 因为这个九宫格是铺不满的，最后一个是空，所以要判断一下才行 -->
         <template v-if="index <= menulist.length">
           <menu-cell
             :menuname="menulist[index - 1].menuname"

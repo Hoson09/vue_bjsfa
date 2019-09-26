@@ -57,7 +57,11 @@
       </div>
       <div class="btn-wrap">
         <div class="btn">下单</div>
-        <div class="btn">商店签到</div>
+        <div class="btn">
+          <router-link :to="`/signin/${this.$route.params.id}`">
+            商店签到
+          </router-link>
+        </div>
       </div>
     </div>
   </div>

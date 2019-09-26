@@ -48,5 +48,24 @@ export default {
   },
   getShopInfo(id) {
     return axios.get('/api/auth/shopSales/' + id);
+  },
+  upLoadImg(data) {
+    // return axios.post('/api/upload', {
+    //   data: data
+    // });
+    return axios({
+      url: '/api/upload',
+      method: 'post',
+      headers: {
+        'Content-type': 'multipart/form-data'
+      },
+      data: data
+    });
+  },
+  submitSignIn(data) {
+    return axios.post('/api/auth/signIn', data);
   }
+  //   getSingInData(shopId) {//暂时没有这个接口
+  //     return axios.get('/api/auth/signIn/' + shopId);
+  //   }
 };
