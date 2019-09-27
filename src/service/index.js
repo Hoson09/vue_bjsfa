@@ -72,5 +72,8 @@ export default {
     return axios.get('/api/auth/goods', {
       params: data
     });
+  },
+  loadWearHouse() {
+    return axios.get('/api/auth/warehouse');
   }
 };

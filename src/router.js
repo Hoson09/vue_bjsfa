@@ -8,6 +8,7 @@ import NoticeDetail from './views/NoticeDetail';
 import ShopInfo from './views/ShopInfo';
 import SignIn from './views/SignIn';
 import OrderView from './views/OrderView';
+import GoodSelect from './views/GoodSelect';
 
 Vue.use(Router);
 
@@ -67,6 +68,11 @@ export default new Router({
       path: '/order/:id',
       name: 'OrderView',
       component: OrderView
+    },
+    {
+      path: '/goodselect/:id',
+      name: 'GoodSelect',
+      component: GoodSelect
     },
     {
       //这是按需加载的方式

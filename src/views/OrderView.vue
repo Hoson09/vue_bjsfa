@@ -41,11 +41,14 @@
         infinite-scroll-distance="10"
         class="goods-bd"
       >
-        <goodlistitem
-          v-for="item in goods"
+        <router-link
+          class="goods-item-link"
+          :to="`/goodselect/${item.id}`"
+          v-for="item in Goods"
           :key="item.id"
-          :goods="item"
-        ></goodlistitem>
+        >
+          <goodlistitem :goods="item" :totalVisible="true"></goodlistitem>
+        </router-link>
       </div>
     </div>
     <my-popup
@@ -77,6 +80,7 @@ import SearchBtn from '../components/SearchBtn';
 import GoodListItem from '../components/GoodListItem';
 import service from '../service/index';
 import { Popup, Checklist, InfiniteScroll } from 'mint-ui';
+import { mapMutations, mapState } from 'vuex';
 Vue.use(InfiniteScroll);
 export default {
   name: 'orderview',
@@ -87,7 +91,7 @@ export default {
       isAll: true,
       totalGood: 0,
       curGood: 0,
-      goods: [],
+      // goods: [],//用户vuex的属性和方法来代替之前在页面中的data中的值。
       filterGoodsType: ['食品', '日化', '宝洁'],
       popupVisible: false,
       curPage: 1,
@@ -95,12 +99,14 @@ export default {
     };
   },
   computed: {
+    ...mapState(['Goods']),
     getFilterGoodsType() {
       return this.filterGoodsType.join('/');
     }
   },
   created() {
     console.log('create');
+    this.initGoods([]); //每次初始化的时候都要把vuex里面存储的数据值为空才行，否则出现bug。
     let fromData = {
       _limit: 15,
       _page: this.curPage
@@ -122,6 +128,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['initGoods', 'appendGoods']),
     onAllClick() {
       this.isAll = true;
       this.isSaleHot = false;
@@ -130,7 +137,8 @@ export default {
         _limit: 15,
         _page: this.curPage
       };
-      this.goods = [];
+      // this.goods = [];//用户vuex的属性和方法来代替之前在页面中的data中的值。
+      this.initGoods([]);
       this.loadGoodsData(data);
     },
     onSaleClick() {
@@ -142,7 +150,9 @@ export default {
         _page: this.curPage
       };
       formData.onsales = this.isSaleHot;
-      this.goods = [];
+      // this.goods = [];//用户vuex的属性和方法来代替之前在页面中的data中的值。
+      this.initGoods([]);
+
       this.loadGoodsData(formData);
     },
     loadMore() {
@@ -161,7 +171,9 @@ export default {
     },
     searchClick() {
       console.log('父组件与自定义搜索框子组件形成的v-model双向绑定', this.q);
-      this.goods = [];
+      // this.goods = [];//用户vuex的属性和方法来代替之前在页面中的data中的值。
+      this.initGoods([]);
+
       this.curPage = 1;
       this.loadGoodsData({
         q: this.q,
@@ -177,7 +189,8 @@ export default {
         .loadGoods(fromData)
         .then(res => {
           console.log('获取Goods数据res', res);
-          this.goods = [...this.goods, ...res.data];
+          // this.goods = [...this.goods, ...res.data];//用户vuex的属性和方法来代替之前在页面中的data中的值。
+          this.appendGoods(res.data);
           if (!this.q && !this.isSaleHot) {
             this.totalGood = res.headers['x-total-count'];
           }
@@ -243,6 +256,9 @@ export default {
           }
         }
       }
+    }
+    .goods-item-link {
+      display: block;
     }
   }
   .btn-confirm {

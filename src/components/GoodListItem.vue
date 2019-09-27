@@ -13,7 +13,7 @@
         <div class="good-price">
           价格:<span class="pricetxt">{{ goods.monery }}</span>
         </div>
-        <div class="good-total">
+        <div v-if="totalVisible" class="good-total">
           <span>库存:{{ goods.number }}</span>
           <i class="icon iconfont icon-icon-refresh"></i>
         </div>
@@ -24,7 +24,7 @@
 <script>
 export default {
   name: 'goodlistitem',
-  props: ['goods'],
+  props: ['goods', 'totalVisible'],
   data() {
     return {};
   }
