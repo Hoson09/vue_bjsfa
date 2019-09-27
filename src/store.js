@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import _ from 'lodash';
+//添加一个vuex的依赖项，用来进行本地化的持久存储，让存储在vuex里面的数据不会因为刷新而出现丢失的现象
+import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
 
@@ -65,5 +67,10 @@ export default new Vuex.Store({
     getNoticeList(state) {
       return state.NoticeList;
     }
-  }
+  },
+  plugins: [
+    createPersistedState({
+      storage: window.sessionStorage
+    })
+  ]
 });

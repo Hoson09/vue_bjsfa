@@ -64,8 +64,13 @@ export default {
   },
   submitSignIn(data) {
     return axios.post('/api/auth/signIn', data);
-  }
+  },
   //   getSingInData(shopId) {//暂时没有这个接口
   //     return axios.get('/api/auth/signIn/' + shopId);
   //   }
+  loadGoods(data) {
+    return axios.get('/api/auth/goods', {
+      params: data
+    });
+  }
 };

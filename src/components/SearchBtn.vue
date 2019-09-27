@@ -21,7 +21,12 @@ export default {
   data() {
     return {};
   },
-  props: ['value']
+  props: ['value'],
+  methods: {
+    searchBoxChange(a) {
+      console.log(a);
+    }
+  }
 };
 </script>
 <style scoped lang="scss">

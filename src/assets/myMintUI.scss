@@ -1,0 +1,30 @@
+.mint-popup.mint-popup-right {
+    width: 60%;
+    height: 100%;
+    .popup-select {
+        width: 100%;
+        height: 100%;
+        .mint-checklist {
+            line-height: px2rem(150);
+            .mint-checklist-title {
+                text-align: center;
+                font-size: px2rem(40) !important;
+            }
+            .mint-cell {
+                .mint-cell-wrapper {
+                    line-height: 2;
+                    font-size: px2rem(40) !important;
+                    .mint-checkbox-core {
+                        width: px2rem(40);
+                        height: px2rem(40);
+                        &::after {
+                            width: px2rem(14);
+                            height: px2rem(28);
+                            left: px2rem(12);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
