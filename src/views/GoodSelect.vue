@@ -31,20 +31,26 @@
           </div>
           <div class="r">
             <span>
-              <i class="icon iconfont icon-weibiaoti511 inputBtn"></i>
+              <i
+                @click="countReduce"
+                class="icon iconfont icon-weibiaoti512 inputBtn"
+              ></i>
             </span>
             <span>
-              <input type="number" v-model="counts" />
+              <input type="number" v-model="counts" @input="inputClick" />
             </span>
             <span>
-              <i class="icon iconfont icon-weibiaoti512 inputBtn"></i>
+              <i
+                @click="countAdd"
+                class="icon iconfont icon-weibiaoti511 inputBtn"
+              ></i>
             </span>
           </div>
         </div>
       </div>
     </div>
     <div class="content-bottom">
-      <div class="btn-cancel">取消</div>
+      <div class="btn-cancel" @click="$router.go(-1)">取消</div>
       <div class="btn-add">加入购物车</div>
     </div>
   </div>
@@ -88,6 +94,35 @@ export default {
   components: {
     topheader: TopHeader,
     goodlistitem: GoodListItem
+  },
+  methods: {
+    countAdd() {
+      let tempcount = Number(this.counts);
+      tempcount += 1;
+      if (tempcount >= this.goods.number) {
+        tempcount = this.goods.number;
+      }
+      this.counts = tempcount;
+    },
+    countReduce() {
+      if (!this.counts || Number(this.counts) < 0) {
+        this.counts = 0;
+        return;
+      }
+      let tempcount = Number(this.counts);
+      tempcount -= 1;
+      this.counts = tempcount;
+    },
+    inputClick() {
+      // console.log('input实时数据:', this.counts, typeof this.counts);
+      if (!this.counts) {
+        this.counts = 0;
+      } else if (parseInt(this.counts) >= this.goods.number) {
+        this.counts = parseInt(this.goods.number);
+      } else {
+        this.counts = parseInt(this.counts);
+      }
+    }
   }
 };
 </script>
@@ -130,11 +165,11 @@ export default {
         .r {
           input {
             font-size: px2rem(30);
-            line-height: px2rem(30);
-            height: px2rem(60);
-            width: px2rem(90);
+            line-height: px2rem(44);
+            height: px2rem(44);
+            width: px2rem(120);
             border: px2rem(1) solid #ccc;
-            border-radius: px2rem(10);
+            border-radius: 5%;
             text-align: center;
           }
           i {
@@ -142,12 +177,12 @@ export default {
             margin-left: px2rem(20);
           }
           .inputBtn {
-            display: inline-block;
-            height: px2rem(40);
-            width: px2rem(40);
-            font-size: px2rem(36);
-            vertical-align: baseline;
+            height: px2rem(46);
+            width: px2rem(46);
+            font-size: px2rem(46);
+            vertical-align: middle;
             text-align: center;
+            color: rgb(105, 102, 102);
             &:first-child {
               margin-right: px2rem(20);
             }
