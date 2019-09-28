@@ -37,7 +37,11 @@
               ></i>
             </span>
             <span>
-              <input type="number" v-model="counts" @input="inputClick" />
+              <input
+                type="number"
+                v-model.number="counts"
+                @input="inputClick"
+              />
             </span>
             <span>
               <i
@@ -51,7 +55,7 @@
     </div>
     <div class="content-bottom">
       <div class="btn-cancel" @click="$router.go(-1)">取消</div>
-      <div class="btn-add">加入购物车</div>
+      <div class="btn-add" @click="addToCart">加入购物车</div>
     </div>
   </div>
 </template>
@@ -96,6 +100,10 @@ export default {
     goodlistitem: GoodListItem
   },
   methods: {
+    addToCart() {
+      //跳转到新页面
+      this.$router.push(`/cart/${this.$route.params.id}`);
+    },
     countAdd() {
       let tempcount = Number(this.counts);
       tempcount += 1;
