@@ -68,7 +68,7 @@ export default {
   data() {
     return {
       goods: {},
-      counts: 0,
+      counts: 1,
       wareHouseName: ''
     };
   },
@@ -101,6 +101,14 @@ export default {
   },
   methods: {
     addToCart() {
+      //把相应的数据传到vuex上存储起来
+      this.$store.commit('initCartData', {
+        shopId: this.$store.state.curOrderShop.id,
+        wareHouseName: this.wareHouseName,
+        count: this.counts,
+        goods: this.goods,
+        warehouseId: this.goods.warehouseId
+      });
       //跳转到新页面
       this.$router.push(`/cart/${this.$route.params.id}`);
     },
@@ -113,18 +121,20 @@ export default {
       this.counts = tempcount;
     },
     countReduce() {
-      if (!this.counts || Number(this.counts) < 0) {
-        this.counts = 0;
-        return;
-      }
+      // console.log(Number(this.counts));
       let tempcount = Number(this.counts);
       tempcount -= 1;
+      // console.log(tempcount <= 1);
+      if (tempcount <= 1) {
+        this.counts = 1;
+        return;
+      }
       this.counts = tempcount;
     },
     inputClick() {
       // console.log('input实时数据:', this.counts, typeof this.counts);
       if (!this.counts) {
-        this.counts = 0;
+        this.counts = 1;
       } else if (parseInt(this.counts) >= this.goods.number) {
         this.counts = parseInt(this.goods.number);
       } else {

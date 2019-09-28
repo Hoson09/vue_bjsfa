@@ -17,9 +17,124 @@ export default new Vuex.Store({
     Shops: [],
     Goods: [],
     curOrderShop: {},
-    wearHouse: []
+    wearHouse: [],
+    cartData: []
+    /**
+     * 购物车的结构：
+     * carts:[{
+     *       shopID:20,
+     *       shopName:'XXX超市',
+     *       wareHouse：[{
+     *                  remark:'',
+     *                  wareHouseID:1002
+     *                  wareHouseName:'sss',
+     *                  checked:true,
+     *                  goods:[{
+     *                        goodsInfo:{商品对象},
+     *                        counts:20,
+     *                        checked:true
+     *                          },
+     *                          ...
+     *                        ]
+     *                    },
+     *                    ...
+     *                  ]
+     *         },
+     *         ...
+     *      ]
+     */
   },
   mutations: {
+    clearCart(state) {
+      state.cartData = [];
+    },
+    initCartData(state, payload) {
+      console.log(payload);
+      //把商品信息处理后加入购物车
+      // payload: {
+      //   shopId: this.$route.params.id,
+      //   wareHouseName: this.wareHouseName,
+      //   count: this.counts,
+      //   goods: this.goods,
+      //   warehouseId: this.goods.warehouseId
+      // }
+      //1. 判断当前商铺是否在购物车中
+      let shopIndex = state.cartData.findIndex(
+        item => item.shopId == payload.shopId
+      );
+      //2. 如果商铺不在购物车中，则新增一条数据到Carts中
+
+      if (shopIndex < 0) {
+        console.log('追加一条新的商铺数据到购物车');
+        state.cartData.push({
+          shopId: payload.shopId,
+          shopName: state.curOrderShop.name,
+          wareHouse: [
+            {
+              remark: '',
+              wareHouseID: payload.warehouseId,
+              wareHouseName: payload.wareHouseName,
+              checked: true,
+              goods: [
+                {
+                  goodsInfo: payload.goods,
+                  counts: payload.count,
+                  checked: true
+                }
+              ]
+            }
+          ]
+        });
+      } else {
+        console.log('商铺已经存在,添加仓库和商品');
+        let shop = state.cartData[shopIndex];
+        //3.判断要添加的商品所在的仓库是否已经在cartData的wareHouse中存在
+        let wareHouseIndex = shop.wareHouse.findIndex(
+          wareHouse => wareHouse.wareHouseID == payload.warehouseId
+        );
+        if (wareHouseIndex < 0) {
+          console.log('添加商品所在的仓库不存在,需要添加新的仓库');
+          shop.wareHouse.push({
+            remark: '',
+            wareHouseID: payload.warehouseId,
+            wareHouseName: payload.wareHouseName,
+            checked: true,
+            goods: [
+              {
+                goodsInfo: payload.goods,
+                counts: payload.count,
+                checked: true
+              }
+            ]
+          });
+        } else {
+          console.log('添加商品所在的仓库已存在，需要添加商品');
+          let wareHouse = shop.wareHouse[wareHouseIndex];
+          //4.判断需要添加的商品是否已经在wareHouse中的goods中存在
+          let goodIndex = wareHouse.goods.findIndex(
+            goods => goods.goodsInfo.id == payload.goods.id
+          );
+          if (goodIndex < 0) {
+            console.log('当前仓库不存在此商品，需要增加商品');
+            wareHouse.goods.push({
+              goodsInfo: payload.goods,
+              counts: payload.count,
+              checked: true
+            });
+          } else {
+            console.log('当前仓库已经存在此商品,增加商品数量');
+            let newCount = wareHouse.goods[goodIndex].counts + payload.count;
+            /*如果你Vuex设置的对象新增加或者改变属性的数据想要被Vue监控的话，
+             *那么就要使用Vue.set()这个Vue全局方法才行和以前的数组的push()类似
+             */
+            Vue.set(wareHouse.goods[goodIndex], 'counts', newCount);
+          }
+        }
+        //把当前仓库中的shop信息重新写入到vuex的state中去。保持数据持续被监听的方式
+        console.log('最终形成的数据cartData为:', shop);
+        Vue.set(state.cartData, shopIndex, shop);
+      }
+    },
     initWearHouse(state, payload) {
       state.wearHouse = payload;
     },
