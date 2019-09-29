@@ -22,7 +22,7 @@ export default new Vuex.Store({
     /**
      * 购物车的结构：
      * carts:[{
-     *       shopID:20,
+     *       shopId:3021,
      *       shopName:'XXX超市',
      *       wareHouse：[{
      *                  remark:'',
@@ -45,6 +45,79 @@ export default new Vuex.Store({
      */
   },
   mutations: {
+    changeWareHouseChecked(state, payload) {
+      console.log('修改WareHouse选中状态');
+      let shopIndex = state.cartData.findIndex(
+        shop => shop.shopId == state.curOrderShop.id
+      );
+      let curShopInfo = { ...state.cartData[shopIndex] };
+      let curWareHouse = curShopInfo.wareHouse.find(
+        w => w.wareHouseID == payload.wareHouseID
+      );
+      console.log('curWareHouse', curWareHouse);
+      curWareHouse.checked = payload.checked;
+      if (payload.checked) {
+        curWareHouse.goods.forEach(good => {
+          good.checked = payload.checked;
+        });
+      } else {
+        curWareHouse.goods.forEach(good => {
+          good.checked = payload.checked;
+        });
+      }
+      state.cartData.splice(shopIndex, 1, curShopInfo);
+    },
+    changeGoodsChecked(state, payload) {
+      console.log('修改good选中状态');
+      let shopIndex = state.cartData.findIndex(
+        shop => shop.shopId == state.curOrderShop.id
+      );
+      let curShopInfo = { ...state.cartData[shopIndex] };
+      let curWareHouse = curShopInfo.wareHouse.find(
+        w => w.wareHouseID == payload.wareHouseID
+      );
+      console.log('curWareHouse', curWareHouse);
+      let curGood = curWareHouse.goods.find(
+        good => good.goodsInfo.id == payload.goodID
+      );
+      // curGood.counts = payload.count;
+      // if (parseInt(curGood.counts) > parseInt(curGood.goodsInfo.number)) {
+      //   curGood.counts = curGood.goodsInfo.number;
+      // }
+      curGood.checked = payload.checked;
+      if (payload.checked) {
+        curWareHouse.checked = true;
+      } else {
+        let index = curWareHouse.goods.findIndex(good => good.checked == true);
+        if (index < 0) {
+          curWareHouse.checked = false;
+        }
+      }
+      //直接赋值是不会vue被监听的，所以要用 push splice，vue.set等方式来进行数据的替换。
+      state.cartData.splice(shopIndex, 1, curShopInfo);
+      // Vue.set(state.cartData, shopIndex, curShopInfo);
+    },
+    addGoodCount(state, payload) {
+      // console.log('addGoodCount payload', payload);
+      //接收的是goodID和wareHouseID shopId(curOrderShop) 以及count
+      let shopIndex = state.cartData.findIndex(
+        shop => shop.shopId == state.curOrderShop.id
+      );
+      let curShopInfo = { ...state.cartData[shopIndex] };
+      let curWareHouse = curShopInfo.wareHouse.find(
+        w => w.wareHouseID == payload.wareHouseID
+      );
+      let curGood = curWareHouse.goods.find(
+        good => good.goodsInfo.id == payload.goodID
+      );
+      curGood.counts = payload.count;
+      if (parseInt(curGood.counts) > parseInt(curGood.goodsInfo.number)) {
+        curGood.counts = curGood.goodsInfo.number;
+      }
+      //直接赋值是不会vue被监听的，所以要用 push splice，vue.set等方式来进行数据的替换。
+      state.cartData.splice(shopIndex, 1, curShopInfo);
+      // Vue.set(state.cartData, shopIndex, curShopInfo);
+    },
     clearCart(state) {
       state.cartData = [];
     },
@@ -124,6 +197,12 @@ export default new Vuex.Store({
           } else {
             console.log('当前仓库已经存在此商品,增加商品数量');
             let newCount = wareHouse.goods[goodIndex].counts + payload.count;
+            if (
+              parseInt(newCount) >
+              parseInt(wareHouse.goods[goodIndex].goodsInfo.number)
+            ) {
+              newCount = wareHouse.goods[goodIndex].goodsInfo.number;
+            }
             /*如果你Vuex设置的对象新增加或者改变属性的数据想要被Vue监控的话，
              *那么就要使用Vue.set()这个Vue全局方法才行和以前的数组的push()类似
              */
