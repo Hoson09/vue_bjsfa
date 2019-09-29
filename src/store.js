@@ -45,6 +45,20 @@ export default new Vuex.Store({
      */
   },
   mutations: {
+    allSelection(state, payload) {
+      console.log('购物车全选或者全不选的函数');
+      let shopIndex = state.cartData.findIndex(
+        shop => shop.shopId == state.curOrderShop.id
+      );
+      let curShopInfo = { ...state.cartData[shopIndex] };
+      curShopInfo.wareHouse.forEach(w => {
+        w.checked = payload;
+        w.goods.forEach(g => {
+          g.checked = payload;
+        });
+      });
+      state.cartData.splice(shopIndex, 1, curShopInfo);
+    },
     changeWareHouseChecked(state, payload) {
       console.log('修改WareHouse选中状态');
       let shopIndex = state.cartData.findIndex(
@@ -204,7 +218,7 @@ export default new Vuex.Store({
               newCount = wareHouse.goods[goodIndex].goodsInfo.number;
             }
             /*如果你Vuex设置的对象新增加或者改变属性的数据想要被Vue监控的话，
-             *那么就要使用Vue.set()这个Vue全局方法才行和以前的数组的push()类似
+             *那么就要使用Vue.set()这个Vue全局方法才行和以前的数组需要被监控时的push()方法类似
              */
             Vue.set(wareHouse.goods[goodIndex], 'counts', newCount);
           }

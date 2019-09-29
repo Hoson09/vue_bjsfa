@@ -66,6 +66,7 @@ export default {
         goodID: e.goodID,
         wareHouseID: this.wareHouseData.wareHouseID
       });
+      this.$emit('allSelectClick');
     },
     wareHouseCheckedChange(e) {
       console.log(e);
@@ -73,6 +74,7 @@ export default {
         checked: e.checked,
         wareHouseID: this.wareHouseData.wareHouseID
       });
+      this.$emit('allSelectClick');
     }
   },
   components: {

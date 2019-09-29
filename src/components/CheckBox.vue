@@ -12,7 +12,17 @@ export default {
   },
   methods: {
     handleClick() {
-      // this.$emit('input', !this.value);//发送input事件是与父组件上的v-modal相结合的，但是仓库和货物的checked不同步，不能这么简单的处理。
+      console.log('sda', this.value);
+      if (this.value.name == 'allChecked') {
+        //父子组件之间传值的时候当传递过来是什么类型的值，返回的必须是同样类型的值才行。
+        console.log('sss');
+        this.$emit('input', {
+          checked: !this.value.checked,
+          name: 'allChecked'
+        });
+        return;
+      }
+      //发送input事件是与父组件上的v-modal相结合的，但是仓库和货物的checked不同步，不能这么简单的处理。
       if (this.value.wareHouseID) {
         // console.log('wareHouseID');
         this.$emit('wareHouseCheckedChange', {
