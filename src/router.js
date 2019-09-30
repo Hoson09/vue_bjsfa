@@ -11,6 +11,7 @@ import OrderView from './views/OrderView';
 import GoodSelect from './views/GoodSelect';
 import Cart from './views/Cart';
 import CartRemark from './views/CartRemark';
+import SubCart from './views/SubCart';
 
 Vue.use(Router);
 
@@ -85,6 +86,11 @@ export default new Router({
       path: '/cartremark/:id',
       name: 'CartRemark',
       component: CartRemark
+    },
+    {
+      path: '/subcart',
+      name: 'SubCart',
+      component: SubCart
     },
     {
       //这是按需加载的方式

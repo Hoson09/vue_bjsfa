@@ -23,7 +23,11 @@
         </div>
       </div>
       <div class="b-r">
-        <div class="comfirm">确认</div>
+        <div class="comfirm">
+          <router-link to="/subcart">
+            确认
+          </router-link>
+        </div>
       </div>
     </div>
   </div>

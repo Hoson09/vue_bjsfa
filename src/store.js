@@ -292,6 +292,17 @@ export default new Vuex.Store({
   },
   actions: {},
   getters: {
+    getCurCartData(state) {
+      let shopInfo = state.cartData.find(
+        shop => shop.shopId == state.curOrderShop.id
+      );
+      /*因为要找到checked为true的数据，所以可以在这里进行过滤再添加到后面的SubCart.vue页面上，
+       *也可以不进行数据过滤，在SubCart.vue中再使用<template v-if=""></template>来过滤数据。
+       *(如果要进行数据过滤来改造数据的话，就必须把shopInfo对象重新深拷贝复制一个新的对象来进行数据修改和调整，
+       *调整修改结束后在返回这个数据)
+       */
+      return shopInfo;
+    },
     getRemarkByWareHouseID: state => id => {
       /*****名义上vuex的getters方法是不能传值的，但是vuex的getters方法内部的自己定义的匿名函数是可以传参的。
        * 所以这里改变了函数的书写方式****/
