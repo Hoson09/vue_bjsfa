@@ -61,7 +61,7 @@
       <div class="bt-l">
         合计:<span>{{ getSumMoney }}元</span>
       </div>
-      <div class="b-r">
+      <div class="b-r" @click="subOrder">
         确定
       </div>
     </div>
@@ -70,6 +70,8 @@
 <script>
 import TopHeader from '../components/TopHeader';
 import { mapState, mapGetters } from 'vuex';
+import service from '../service/index';
+import { Toast } from 'mint-ui';
 export default {
   name: 'subcart',
   data() {
@@ -93,6 +95,23 @@ export default {
         }
       });
       return money;
+    }
+  },
+  methods: {
+    subOrder() {
+      console.log('getCurCartData:', this.getCurCartData);
+      service
+        .subOrder(this.getCurCartData)
+        .then(res => {
+          console.log('提交购物车成功res:', res);
+          //提交后，然后把提交的数据清理掉。
+          this.$store.commit('subOrderClear');
+          Toast('提交订单成功');
+          this.$router.push('/home');
+        })
+        .catch(err => {
+          console.log('提交购物车err:', err);
+        });
     }
   }
 };

@@ -45,6 +45,24 @@ export default new Vuex.Store({
      */
   },
   mutations: {
+    subOrderClear(state) {
+      console.log('提交成功后把提交的数据清理掉');
+      let shopIndex = state.cartData.findIndex(
+        shop => shop.shopId == state.curOrderShop.id
+      );
+      // let curShopInfo = { ...state.cartData[shopIndex] };//这是第一层是深拷贝，第二层及以上的是浅拷贝
+      let curShopInfo = _.cloneDeep(state.cartData[shopIndex]); //使用loadsh.cloneDeep()是对引用类型进行深拷贝。
+      //1.过滤掉仓库中所有good的checked都为true的仓库。
+      curShopInfo.wareHouse = curShopInfo.wareHouse.filter(w => {
+        return w.goods.findIndex(g => g.checked == false) >= 0;
+      });
+      //2.过滤掉checked为true的good
+      curShopInfo.wareHouse.forEach(w => {
+        w.goods = w.goods.filter(g => g.checked == false);
+      });
+
+      state.cartData.splice(shopIndex, 1, curShopInfo);
+    },
     addRemarkToWareHouse(state, payload) {
       //payload remark id
       let curOrderShop = state.curOrderShop;
@@ -246,6 +264,7 @@ export default new Vuex.Store({
     },
     initCurOrderShop(state, payload) {
       state.curOrderShop = payload;
+      console.log('initCurOrderShop', state.curOrderShop);
     },
     initGoods(state, payload) {
       state.Goods = payload;
@@ -296,12 +315,33 @@ export default new Vuex.Store({
       let shopInfo = state.cartData.find(
         shop => shop.shopId == state.curOrderShop.id
       );
+      console.log(
+        'state.curOrderShop',
+        state.curOrderShop.id,
+        'shopInfo:',
+        shopInfo,
+        'cartData',
+        state.cartData
+      );
+      if (!shopInfo) {
+        return;
+      }
       /*因为要找到checked为true的数据，所以可以在这里进行过滤再添加到后面的SubCart.vue页面上，
        *也可以不进行数据过滤，在SubCart.vue中再使用<template v-if=""></template>来过滤数据。
        *(如果要进行数据过滤来改造数据的话，就必须把shopInfo对象重新深拷贝复制一个新的对象来进行数据修改和调整，
        *调整修改结束后在返回这个数据)
+       *以下的操作就是完全体的操作
        */
-      return shopInfo;
+      let newShopInfo = _.cloneDeep(shopInfo); //深拷贝一个引用类型用来处理数据 使用loadsh插件
+      // console.log('getCurCartData newShopInfo', newShopInfo);
+      newShopInfo.wareHouse = newShopInfo.wareHouse.filter(w => w.checked);
+      newShopInfo.wareHouse.forEach(w => {
+        w.goods = w.goods.filter(g => g.checked);
+      });
+      newShopInfo.wareHouse = newShopInfo.wareHouse.filter(
+        w => w.goods.length > 0
+      );
+      return newShopInfo;
     },
     getRemarkByWareHouseID: state => id => {
       /*****名义上vuex的getters方法是不能传值的，但是vuex的getters方法内部的自己定义的匿名函数是可以传参的。

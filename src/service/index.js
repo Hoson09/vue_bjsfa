@@ -75,5 +75,8 @@ export default {
   },
   loadWearHouse() {
     return axios.get('/api/auth/warehouse');
+  },
+  subOrder(data) {
+    return axios.post('/api/auth/order', data);
   }
 };
