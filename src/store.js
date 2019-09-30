@@ -45,6 +45,19 @@ export default new Vuex.Store({
      */
   },
   mutations: {
+    addRemarkToWareHouse(state, payload) {
+      //payload remark id
+      let curOrderShop = state.curOrderShop;
+      let shopInfoIndex = state.cartData.findIndex(
+        shop => shop.shopId == curOrderShop.id
+      );
+      let newShopInfo = { ...state.cartData[shopInfoIndex] };
+      let wareHouse = newShopInfo.wareHouse.find(
+        w => w.wareHouseID == payload.id
+      );
+      wareHouse.remark = payload.remark;
+      Vue.set(state.cartData, shopInfoIndex, newShopInfo);
+    },
     allSelection(state, payload) {
       console.log('购物车全选或者全不选的函数');
       let shopIndex = state.cartData.findIndex(
@@ -279,6 +292,18 @@ export default new Vuex.Store({
   },
   actions: {},
   getters: {
+    getRemarkByWareHouseID: state => id => {
+      /*****名义上vuex的getters方法是不能传值的，但是vuex的getters方法内部的自己定义的匿名函数是可以传参的。
+       * 所以这里改变了函数的书写方式****/
+      let curOrderShop = state.curOrderShop;
+      let shopInfo = state.cartData.find(
+        shop => shop.shopId == curOrderShop.id
+      );
+      //当传递对象并且要进行修改的时候最好把这个对象重新生成一个对象，否则可能会出现浅拷贝的一系列问题 Object.assign(obj,newobj) ,{...obj};
+      // let newShop = { ...shopInfo };//因为这里只是获取这个值，并不是设置这个值，所以不需要重新生成一个新对象来赋值
+      let wareHouse = shopInfo.wareHouse.find(w => w.wareHouseID == id);
+      return wareHouse.remark;
+    },
     getLoginUser(state) {
       return state.loginUser;
     },

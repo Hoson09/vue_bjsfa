@@ -11,7 +11,11 @@
         <span>{{ wareHouseData.wareHouseName }}</span>
       </div>
       <div class="r">
-        <span>备注</span>
+        <span>
+          <router-link :to="`/cartremark/${wareHouseData.wareHouseID}`">
+            备注
+          </router-link>
+        </span>
         <i class="icon iconfont icon-bianji"></i>
       </div>
     </div>

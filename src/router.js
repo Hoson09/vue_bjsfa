@@ -10,6 +10,7 @@ import SignIn from './views/SignIn';
 import OrderView from './views/OrderView';
 import GoodSelect from './views/GoodSelect';
 import Cart from './views/Cart';
+import CartRemark from './views/CartRemark';
 
 Vue.use(Router);
 
@@ -79,6 +80,11 @@ export default new Router({
       path: '/cart/:id',
       name: 'Cart',
       component: Cart
+    },
+    {
+      path: '/cartremark/:id',
+      name: 'CartRemark',
+      component: CartRemark
     },
     {
       //这是按需加载的方式

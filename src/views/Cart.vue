@@ -1,7 +1,9 @@
 <template>
   <div class="cartview">
     <topheader :title="shopName">
-      <div slot="r" class="edit-btn">编辑</div>
+      <div slot="r" class="edit-btn">
+        编辑
+      </div>
     </topheader>
     <div class="wareHouse-wrap">
       <warehouse
