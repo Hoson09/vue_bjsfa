@@ -1,8 +1,8 @@
 <template>
   <div class="home">
-    <topheader title="SFA" backurl="">
-      <router-link to="/user" slot="r" class="iconfont icon-user"></router-link
-    ></topheader>
+    <topheader title="SFA" backurl="/">
+      <router-link to="/user" slot="r" class="iconfont icon-user"></router-link>
+    </topheader>
     <div class="main-body">
       <div class="date-wrap">{{ getYearMouth }}</div>
       <div class="progress-wrap">

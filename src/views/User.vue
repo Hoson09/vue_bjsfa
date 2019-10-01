@@ -38,8 +38,8 @@
       </div>
     </div>
     <div class="bt">
-      <div class="bt-l">重新登录</div>
-      <div class="bt-r">注销</div>
+      <div @click="ReLogin" class="bt-l">重新登录</div>
+      <div @click="LoginOut" class="bt-r">注销</div>
     </div>
   </div>
 </template>
@@ -61,6 +61,25 @@ export default {
     topheader: TopHeader
   },
   methods: {
+    LoginOut() {
+      console.log('清除sessionStorage,localStorage,vuex中的数据');
+      //清理sessionStorage,localStorage,vuex中的数据
+      sessionStorage.clear();
+      localStorage.clear();
+      this.$store.commit('clearAllData');
+      //然后跳转至登录页面
+      this.$router.push('/');
+    },
+    ReLogin() {
+      console.log(
+        '清除vuex，sessionStorage,localStorage中的数据，但是保留登录信息'
+      );
+      let loginData = { ...this.loginUser };
+      sessionStorage.clear();
+      localStorage.clear();
+      this.$store.commit('clearAllData');
+      this.$router.push(`/?CNO=${loginData.CNO}&PNO=${loginData.PNO}`);
+    },
     imgClick() {
       this.$refs.file.click();
     },

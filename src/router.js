@@ -12,6 +12,7 @@ import GoodSelect from './views/GoodSelect';
 import Cart from './views/Cart';
 import CartRemark from './views/CartRemark';
 import SubCart from './views/SubCart';
+import AddShop from './views/AddShop';
 
 Vue.use(Router);
 
@@ -101,6 +102,17 @@ export default new Router({
       // which is lazy-loaded when the route is visited.
       component: () =>
         import(/* webpackChunkName: "about" */ './views/User.vue')
+    },
+    {
+      path: '/addedshop',
+      name: 'addedshop',
+      component: AddShop
+    },
+    {
+      //增加这个路由的意思是路由跳转时如果所有的路由都没匹配上的话会自动跳转到这个地址，相对应显示的是VisitShop页面。
+      path: '*',
+      name: 'all',
+      component: VisitShop
     }
   ]
 });

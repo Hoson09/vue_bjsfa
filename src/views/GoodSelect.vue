@@ -77,6 +77,21 @@ export default {
       item => item.id == this.$route.params.id
     );
     //先获取仓库的id: this.goods.warehouseId
+    console.log('this.$store.state.wearHouse', this.$store.state.wearHouse);
+    if (!this.$store.state.wearHouse) {
+      service
+        .loadWearHouse()
+        .then(res => {
+          this.$store.commit('initWearHouse', res.data);
+          this.wareHouseName = res.data.find(
+            item => item.id == this.goods.warehouseId
+          ).reponame;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      return;
+    }
     if (this.$store.state.wearHouse.length <= 0) {
       //如果vuex中这个数组没有值需要网络请求得到这个值
       service

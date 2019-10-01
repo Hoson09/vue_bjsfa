@@ -45,6 +45,15 @@ export default new Vuex.Store({
      */
   },
   mutations: {
+    clearAllData(state) {
+      //清除所有的vuex数据
+      console.log('清除所有的vuex数据');
+      for (let k in state) {
+        Vue.set(state, k, null);
+      }
+      // state = {}; //这两种方式清空数据都是可以的
+      console.log('现在vuex中的数据:', state);
+    },
     changeCurUserInfo(state, payload) {
       console.log('修改当前用户头像图片的信息');
       // state.loginUser.avatar = payload;//这种方式不会被监听
@@ -182,6 +191,10 @@ export default new Vuex.Store({
       //   warehouseId: this.goods.warehouseId
       // }
       //1. 判断当前商铺是否在购物车中
+      if (!state.cartData) {
+        //排除风险
+        state.cartData = [];
+      }
       let shopIndex = state.cartData.findIndex(
         item => item.shopId == payload.shopId
       );
@@ -317,6 +330,9 @@ export default new Vuex.Store({
   actions: {},
   getters: {
     getCurCartData(state) {
+      if (!state.cartData) {
+        return;
+      }
       let shopInfo = state.cartData.find(
         shop => shop.shopId == state.curOrderShop.id
       );

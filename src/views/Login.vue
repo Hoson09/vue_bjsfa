@@ -110,6 +110,9 @@ export default {
       this.pwd = login_data.pwd;
       this.autologin = login_data.autologin;
       this.remenber = login_data.remenber;
+    } else {
+      this.p_num = this.$route.query.PNO;
+      this.cm_code = this.$route.query.CNO;
     }
     if (this.autologin) {
       this.loginBtnClick();
