@@ -78,5 +78,8 @@ export default {
   },
   subOrder(data) {
     return axios.post('/api/auth/order', data);
+  },
+  putUser(data) {
+    return axios.put(`/api/auth/user/${data.id}`, data);
   }
 };

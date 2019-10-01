@@ -86,7 +86,6 @@ export default {
           // 请求表单中，文件对应的name必须为： imgF
           formData.append('imgF', fileBlob);
           //#endregion 2.对图片进行压缩的处理方法
-          // formData.append('imgF', this.$refs.file.files[0]);//1. 这是之前图片完全不压缩上传的方法。
           // 三、处理好了图片信息，然后开始向服务器上传图片数据
           service
             .upLoadImg(formData)

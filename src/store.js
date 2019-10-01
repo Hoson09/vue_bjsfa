@@ -45,6 +45,11 @@ export default new Vuex.Store({
      */
   },
   mutations: {
+    changeCurUserInfo(state, payload) {
+      console.log('修改当前用户头像图片的信息');
+      // state.loginUser.avatar = payload;//这种方式不会被监听
+      Vue.set(state.loginUser, 'avatar', payload); //这种方式可以被vue监听
+    },
     subOrderClear(state) {
       console.log('提交成功后把提交的数据清理掉');
       let shopIndex = state.cartData.findIndex(
