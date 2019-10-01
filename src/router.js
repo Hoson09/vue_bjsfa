@@ -101,7 +101,7 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import(/* webpackChunkName: "about" */ './views/User.vue') //这样引入组件的方式，是异步引入的方式
+        import(/* webpackChunkName: "about" */ './views/User.vue') //这样引入组件的方式，是异步引入的方式,会在dist文件夹中单独打包形成文件
     },
     {
       path: '/addedshop',

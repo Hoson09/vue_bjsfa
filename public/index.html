@@ -6,18 +6,46 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <script src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js "></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
-    <!-- 引入腾讯地图的脚本 -->
-    <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=FL6BZ-KA6WU-TPBVR-2KIMM-NT3OE-4KFEG"></script>
     <title>vue_bjsfa</title>
+    <style>
+        .skeleton-hd {
+            height: 100px;
+            background-color: #747474;
+        }
+        
+        .skeleton-bd {
+            height: 500px;
+            background-color: #c0c0c0;
+        }
+        
+        .skeleton-bt {
+            border: 1px solid #c99;
+            height: 200px;
+            background-color: #f0f0f0;
+        }
+    </style>
 </head>
 
 <body>
     <noscript>
       <strong>We're sorry but vue_bjsfa doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
-    <div id="app"></div>
+    <div id="app">
+        <!-- 优化3:制作骨架屏,来模拟页面加载 -->
+        <div class="skeleton-hd"></div>
+        <div class="skeleton-bd"></div>
+        <div class="skeleton-bt"></div>
+    </div>
+    <!-- 优化2:把引入的cdn写在body里面可以再加快一些加载速度,尤其是首屏的加载速度 -->
+    <script src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
+    <!-- 引入腾讯地图的脚本 -->
+    <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=FL6BZ-KA6WU-TPBVR-2KIMM-NT3OE-4KFEG"></script>
+    <!-- 优化1:Webpack打包形成dist文件的时候，如果想要把引入的包和依赖进行cdn化处理，除了要在Vue.config.js中对Webpack进行相关的配置以外，还要对应的引入这些包的cdn地址才行。这样处理以后可以大量的压缩js代码-->
+    <script src="https://cdn.bootcss.com/vue-router/3.1.3/vue-router.min.js"></script>
+    <script src="https://cdn.bootcss.com/lodash.js/4.17.15/lodash.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/echarts/4.3.0-rc.2/echarts.min.js"></script>
     <!-- built files will be auto injected -->
 </body>
 

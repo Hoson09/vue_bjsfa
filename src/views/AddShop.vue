@@ -12,42 +12,42 @@
         <mt-field
           label="商店名称:"
           placeholder="请输入商店名称"
-          v-model="username"
+          v-model="shopName"
         ></mt-field>
       </div>
       <div class="row">
         <mt-field
           label="商店名称:"
           placeholder="请输入商店名称"
-          v-model="username"
+          v-model="name"
         ></mt-field>
       </div>
       <div class="row">
         <mt-field
           label="商店名称:"
           placeholder="请输入商店名称"
-          v-model="username"
+          v-model="addressTxt"
         ></mt-field>
       </div>
       <div class="row">
         <mt-field
           label="商店名称:"
           placeholder="请输入商店名称"
-          v-model="username"
+          v-model="phone"
         ></mt-field>
       </div>
       <div class="row">
         <mt-field
           label="商店名称:"
           placeholder="请输入商店名称"
-          v-model="username"
+          v-model="email"
         ></mt-field>
       </div>
       <div class="row">
         <mt-field
           label="商店名称:"
           placeholder="请输入商店名称"
-          v-model="username"
+          v-model="password"
         ></mt-field>
       </div>
     </div>
@@ -60,7 +60,13 @@ export default {
   name: 'addshop',
   data() {
     return {
-      address: ''
+      address: '',
+      password: '',
+      email: '',
+      phone: '',
+      addressTxt: '',
+      name: '',
+      shopName: ''
     };
   },
   components: {

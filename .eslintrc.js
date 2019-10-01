@@ -20,6 +20,7 @@ module.exports = {
         }
     }],
     globals: { //解决全局变量未定义bug问题
-        qq: 'readOnly'
+        qq: 'readOnly',
+        console: 'readOnly'
     }
 };

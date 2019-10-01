@@ -29,5 +29,18 @@ module.exports = {
                 }
             },
         }
+    },
+    configureWebpack: config => {
+        //设置Vue的Webpack的相关配置。
+        config.externals = { //这个操作是在打包的时候对这个些依赖进行cdn化处理，进而大量压缩代码
+            vue: 'Vue',
+            'vue-router': 'VueRouter',
+            lodash: {
+                commonjs: 'lodash',
+                umd: 'lodash',
+                root: '_'
+            },
+            echarts: 'echarts'
+        }
     }
 };
