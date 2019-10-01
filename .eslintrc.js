@@ -19,7 +19,7 @@ module.exports = {
             mocha: true
         }
     }],
-    globals: { //这就是全局解决eslint校验问题
+    globals: { //解决全局变量未定义bug问题
         qq: 'readOnly'
     }
 };

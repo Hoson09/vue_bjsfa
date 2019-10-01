@@ -8,12 +8,54 @@
     <div class="content-container">
       <div ref="map" class="map-container"></div>
       <div class="address">地址:{{ address }}</div>
+      <div class="row">
+        <mt-field
+          label="商店名称:"
+          placeholder="请输入商店名称"
+          v-model="username"
+        ></mt-field>
+      </div>
+      <div class="row">
+        <mt-field
+          label="商店名称:"
+          placeholder="请输入商店名称"
+          v-model="username"
+        ></mt-field>
+      </div>
+      <div class="row">
+        <mt-field
+          label="商店名称:"
+          placeholder="请输入商店名称"
+          v-model="username"
+        ></mt-field>
+      </div>
+      <div class="row">
+        <mt-field
+          label="商店名称:"
+          placeholder="请输入商店名称"
+          v-model="username"
+        ></mt-field>
+      </div>
+      <div class="row">
+        <mt-field
+          label="商店名称:"
+          placeholder="请输入商店名称"
+          v-model="username"
+        ></mt-field>
+      </div>
+      <div class="row">
+        <mt-field
+          label="商店名称:"
+          placeholder="请输入商店名称"
+          v-model="username"
+        ></mt-field>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import TopHeader from '../components/TopHeader';
-
+import { Field } from 'mint-ui';
 export default {
   name: 'addshop',
   data() {
@@ -22,7 +64,8 @@ export default {
     };
   },
   components: {
-    topheader: TopHeader
+    topheader: TopHeader,
+    'mt-field': Field
   },
   mounted() {
     this.getLocation()
@@ -117,7 +160,7 @@ export default {
   flex-flow: column nowrap;
   align-items: center;
   .nav-hd {
-    flex: 0 0 px2rem(120);
+    flex: 0 0 px2rem(120); //如果不直接设置高度的话，在iphone的浏览器上无法显示
     width: 100%;
     .topheader {
       .ok-btn {
@@ -137,6 +180,28 @@ export default {
       color: #000;
       line-height: px2rem(50);
       background-color: #fafafa;
+      margin-left: px2rem(28);
+    }
+    .row {
+      padding-left: px2rem(28);
+      font-size: px2rem(28);
+      border-top: px2rem(1) solid #ccc;
+      box-sizing: border-box;
+      /deep/ .mint-cell-wrapper {
+        //在scss文件中使用 /deep/ 的方法可以让父组件设置子组件的样式。在css文件中，父组件可以使用 >>> 符号来设置子组件的样式
+        font-size: px2rem(24);
+        line-height: px2rem(100);
+        .mint-cell-title {
+          width: px2rem(120);
+        }
+        .mint-cell-value {
+          input {
+            &::-webkit-input-placeholder {
+              color: #ccc;
+            }
+          }
+        }
+      }
     }
   }
 }
