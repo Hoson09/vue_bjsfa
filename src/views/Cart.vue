@@ -131,7 +131,7 @@ export default {
   }
   .topheader {
     width: 100%;
-    flex: 0;
+    flex: 0 0 px2rem(120);
   }
   .wareHouse-wrap {
     width: 100%;

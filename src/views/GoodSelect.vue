@@ -105,10 +105,12 @@ export default {
         .catch(err => {
           console.log(err);
         });
+      return;
     }
     this.wareHouseName = this.$store.state.wearHouse.find(
       item => item.id == this.goods.warehouseId
     ).reponame;
+    console.log('wareHouseName', this.wareHouseName);
   },
   components: {
     topheader: TopHeader,
@@ -168,7 +170,7 @@ export default {
   align-items: center;
   background-color: #fff;
   .topheader {
-    flex: 0;
+    flex: 0 0 px2rem(120);
     width: 100%;
   }
   .content-top {

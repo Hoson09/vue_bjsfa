@@ -118,9 +118,11 @@ export default {
           console.log(err);
         });
       //从vuex中拿到当前店铺的信息。
+      console.log('Shops:', this.Shops);
       this.shopInfoItem = this.Shops.find(
         item => item.id == this.$route.params.id
       );
+      console.log('shopInfoItem:', this.shopInfoItem);
       /*把当前下订单的店铺信息放到vuex中
       (因为要存储的是一个对象是引用类型，所以为了避免不必要的bug应该要生成一个新对象。
       那么使用Object.assign()可以，也可以使用展开运算符，如下：)*/

@@ -127,7 +127,7 @@ export default {
   color: #000;
   .topheader {
     width: 100%;
-    flex: 0;
+    flex: 0 0 px2rem(120);
   }
   .bd {
     flex: 1;

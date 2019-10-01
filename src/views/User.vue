@@ -163,7 +163,7 @@ export default {
   align-items: center;
   color: #000;
   .topheader {
-    flex: 0;
+    flex: 0 0 px2rem(120);
     width: 100%;
   }
   .bd {

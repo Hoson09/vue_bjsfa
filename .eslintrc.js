@@ -18,5 +18,8 @@ module.exports = {
         env: {
             mocha: true
         }
-    }]
+    }],
+    globals: { //这就是全局解决eslint校验问题
+        qq: 'readOnly'
+    }
 };
